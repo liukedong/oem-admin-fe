@@ -146,7 +146,10 @@ module.exports = function(grunt) {
                 singleQuotes: true,
             },
             dist: {
-                src: '.tmp/concat/partner/scripts/app.js'
+                files: [{
+                        expand: true,
+                        src: ['.tmp/concat/partner/scripts/app.js']
+                }]
             }
         },
         filerev: {

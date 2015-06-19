@@ -130,7 +130,8 @@ define(['app_vertical/services'], function() {
             apiHelper('fetchAppDown', {
                 params: {
                     startTime: $scope.startDate,
-                    endTime: $scope.endDate
+                    endTime: $scope.endDate,
+                    countFilter: 100
                 },
                 buzy: 'global'
             }).then(function(r) {
@@ -146,7 +147,20 @@ define(['app_vertical/services'], function() {
         };
 
         $scope.exportCSV = function(e) {
-            $scope._exportCsv.apply(e.target, [$('.pmt-standard-table:visible'), '应用下载数据-豌豆荚-Partners.csv']);
+            var filename = '应用下载数据-豌豆荚-Partners.csv';
+            var params = {
+                    startTime: $scope.startDate,
+                    endTime: $scope.endDate,
+                    config: $scope.$root.currentConfig.alias,
+                    filename: filename
+                };
+            var url = apiHelper.getUrl('fetchAppDown', 'export');
+            var tempParams = [];
+            for (name in params) {
+                tempParams.push(encodeURIComponent(name) + '=' + encodeURIComponent(params[name]));
+            }
+            url = url + '?' + tempParams.join('&');
+            $(e.target).attr({target: '_blank', href: url});
         };
 
         $rootScope.$watch('currentConfig.alias', function(val) {
