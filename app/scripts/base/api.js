@@ -40,6 +40,21 @@ define([], function() {
             }, opt));
         }
 
+        function preProcessUrl(url) {
+            // don't replace url when not in open domain
+            var needProcess = false;
+            if (url.indexOf('/api') > -1 && (location.origin === 'http://open.wandoujia.com')) {
+                needProcess = true;
+                if(/http[s]?:\/\//.test(url) && url.indexOf('http://open.wandoujia.com') == -1) {
+                    needProcess = false;
+                }
+            }
+            if(needProcess) {
+                url = url.replace('/api', '/api/partner');
+            }
+            return url;
+        }
+
         helper.config = function(maps, opt) {
             var _prefix = _urlPrfix;
             if (opt && opt.urlPrefix) {
@@ -48,7 +63,7 @@ define([], function() {
             _.each(maps, function(apiStr, key) {
                 maps[key] = {
                     method: apiStr.split(' ')[0],
-                    url: _prefix + apiStr.split(' ')[1]
+                    url: preProcessUrl(_prefix + apiStr.split(' ')[1])
                 };
             });
             _maps = _.extend(_maps, maps);
@@ -81,17 +96,6 @@ define([], function() {
             }
 
             function requestHandler(config) {
-                // don't replace url when not in open domain
-                var needProcess = false;
-                if (config.url.indexOf('/api') > -1 && (location.origin === 'http://open.wandoujia.com')) {
-                    needProcess = true;
-                    if(/http[s]?:\/\//.test(config.url) && config.url.indexOf('http://open.wandoujia.com') == -1) {
-                        needProcess = false;
-                    }
-                }
-                if(needProcess) {
-                    config.url = config.url.replace('/api', '/api/partner');
-                }
                 return config;
             }
 
