@@ -74,6 +74,27 @@ define([], function() {
                     label: 'OEM 合作方 ID',
                     key: 'bdConfigDetail.configAlias',
                     placeholder: '例如， lenovo'
+                }, {
+                    label: '开启首页广告',
+                    key: 'bdConfigDetail.configStartPage.adEnabled',
+                    type: 'select',
+                    optionStr: 'item.val as item.name for item in [{name: \'开启\', val:true}, {name:\'关闭\', val:false}]'
+                }, {
+                    label: '置顶广告数目',
+                    key: 'bdConfigDetail.configStartPage.adTop',
+                    placeholder: '例如， 3'
+                }, {
+                    label: '出现广告的间隔',
+                    key: 'bdConfigDetail.configStartPage.adInterval',
+                    placeholder: '例如， 2'
+                }, {
+                    label: '每次出现广告的数目',
+                    key: 'bdConfigDetail.configStartPage.adGroup',
+                    placeholder: '例如， 2'
+                }, {
+                    label: '广告循环次数',
+                    key: 'bdConfigDetail.configStartPage.adLoop',
+                    placeholder: '例如， 10'
                 }],
                 del: function(item) {
                     apiHelper('delOemPartner', {
@@ -103,12 +124,12 @@ define([], function() {
                     var self = this;
                     // Hide oemPartnerChannelField when add bzc we dont have validity oem config
                     if (self._editType === 'add') {
-                        if (self.formFields.length == 3) {
-                            self.formFields.splice(2, 1);
+                        if (self.formFields.length == 8) {
+                            self.formFields.splice(7, 1);
                         }
                     } else {
-                        if (self.formFields.length == 2) {
-                            self.formFields.splice(2, 0, oemPartnerChannelField);
+                        if (self.formFields.length == 7) {
+                            self.formFields.splice(7, 0, oemPartnerChannelField);
                         }
                     }
                     this.$on('oemPartner:channel:add', function(e, d) {
