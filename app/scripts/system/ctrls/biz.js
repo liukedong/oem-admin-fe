@@ -78,7 +78,8 @@ define([], function() {
                     label: '开启首页广告',
                     key: 'bdConfigDetail.configStartPage.adEnabled',
                     type: 'select',
-                    optionStr: 'item.val as item.name for item in [{name: \'开启\', val:true}, {name:\'关闭\', val:false}]'
+                    optionStr: 'item.name as item.desc for item in [{name:true, desc:\'开启\'}, {name:false, desc:\'关闭\'}]',
+                    nullText: '请选择'
                 }, {
                     label: '置顶广告数目',
                     key: 'bdConfigDetail.configStartPage.adTop',
